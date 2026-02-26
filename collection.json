@@ -1,0 +1,250 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-02-25T00:00:00Z",
+  "__export_source": "insomnia.desktop.app",
+  "resources": [
+    {
+      "_id": "wrk_750fcced003b4cde",
+      "_type": "workspace",
+      "name": "FiapSubII CarSales (Java 17)",
+      "description": "Coleção para testar a API CarSales (Java 17 + Spring Boot + SQLite in-memory).",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_18787f6c1d074808",
+      "_type": "environment",
+      "parentId": "wrk_750fcced003b4cde",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:8080",
+        "car_id": "00000000-0000-0000-0000-000000000000",
+        "payment_code": "PAY-EXAMPLE"
+      },
+      "dataPropertyOrder": {
+        "&": [
+          "base_url",
+          "car_id",
+          "payment_code"
+        ]
+      },
+      "color": null,
+      "isPrivate": false,
+      "metaSortKey": -1
+    },
+    {
+      "_id": "fld_548e9232615a41de",
+      "_type": "request_group",
+      "parentId": "wrk_750fcced003b4cde",
+      "name": "CarSales API",
+      "description": "Requests principais"
+    },
+    {
+      "_id": "req_e4af6ede21414c97",
+      "_type": "request",
+      "parentId": "fld_548e9232615a41de",
+      "name": "GET - Cars Available",
+      "description": "",
+      "method": "GET",
+      "url": "{{ base_url }}/api/cars/available",
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": 0,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_34f3642a601e40a5",
+      "_type": "request",
+      "parentId": "fld_548e9232615a41de",
+      "name": "GET - Cars Sold",
+      "description": "",
+      "method": "GET",
+      "url": "{{ base_url }}/api/cars/sold",
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": 0,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_cd6c4e275fb64800",
+      "_type": "request",
+      "parentId": "fld_548e9232615a41de",
+      "name": "POST - Register Car",
+      "description": "Cria um carro (retorna mensagem). Depois pegue o ID em /api/cars/available e atualize a variável car_id.",
+      "method": "POST",
+      "url": "{{ base_url }}/api/cars",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 0,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"brand\": \"Toyota\",\n  \"model\": \"Corolla\",\n  \"year\": 2020,\n  \"color\": \"Prata\",\n  \"licensePlate\": \"ABC1D23\",\n  \"price\": 85000.0\n}"
+      }
+    },
+    {
+      "_id": "req_22a5d64366524448",
+      "_type": "request",
+      "parentId": "fld_548e9232615a41de",
+      "name": "PUT - Update Car (by id)",
+      "description": "Atualiza um carro AVAILABLE. Se estiver SOLD, deve falhar.",
+      "method": "PUT",
+      "url": "{{ base_url }}/api/cars/{{ car_id }}",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 0,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"brand\": \"Toyota\",\n  \"model\": \"Corolla XEi\",\n  \"year\": 2021,\n  \"color\": \"Preto\",\n  \"price\": 92000.0\n}"
+      }
+    },
+    {
+      "_id": "req_e2b6348896c942e7",
+      "_type": "request",
+      "parentId": "fld_548e9232615a41de",
+      "name": "POST - Create Sale",
+      "description": "Cria uma venda e retorna paymentCode. Copie para payment_code.",
+      "method": "POST",
+      "url": "{{ base_url }}/api/sales",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 0,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"carId\": \"{{ car_id }}\",\n  \"taxId\": \"12345678901\"\n}"
+      }
+    },
+    {
+      "_id": "req_7be924c699df4e3f",
+      "_type": "request",
+      "parentId": "fld_548e9232615a41de",
+      "name": "POST - Payment Webhook",
+      "description": "Simula callback de pagamento. status: 0=PENDING, 1=APPROVED, 2=REJECTED.",
+      "method": "POST",
+      "url": "{{ base_url }}/api/webhooks/payments",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 0,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"paymentCode\": \"{{ payment_code }}\",\n  \"status\": 1\n}"
+      }
+    },
+    {
+      "_id": "req_b74edc683a7b41c0",
+      "_type": "request",
+      "parentId": "fld_548e9232615a41de",
+      "name": "GET - Get Payment (by code)",
+      "description": "",
+      "method": "GET",
+      "url": "{{ base_url }}/api/payment/{{ payment_code }}",
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": 0,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_1aeee483d93d4b02",
+      "_type": "request",
+      "parentId": "fld_548e9232615a41de",
+      "name": "Swagger UI",
+      "description": "",
+      "method": "GET",
+      "url": "{{ base_url }}/swagger-ui/index.html",
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": 0,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_f32ebd30a1b84509",
+      "_type": "request",
+      "parentId": "fld_548e9232615a41de",
+      "name": "OpenAPI JSON",
+      "description": "",
+      "method": "GET",
+      "url": "{{ base_url }}/v3/api-docs",
+      "headers": [],
+      "authentication": {},
+      "metaSortKey": 0,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global"
+    }
+  ]
+}
