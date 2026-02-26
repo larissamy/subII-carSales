@@ -8,7 +8,7 @@
       "_id": "wrk_750fcced003b4cde",
       "_type": "workspace",
       "name": "FiapSubII CarSales (Java 17)",
-      "description": "Coleção para testar a API CarSales (Java 17 + Spring Boot + SQLite in-memory).",
+      "description": "Colecao para testar a API CarSales (Java 17 + Spring Boot + SQLite in-memory).",
       "scope": "collection"
     },
     {
@@ -82,7 +82,7 @@
       "_type": "request",
       "parentId": "fld_548e9232615a41de",
       "name": "POST - Register Car",
-      "description": "Cria um carro (retorna mensagem). Depois pegue o ID em /api/cars/available e atualize a variável car_id.",
+      "description": "Cria um carro (retorna mensagem). Depois pegue o ID em /api/cars/available e atualize a variavel car_id.",
       "method": "POST",
       "url": "{{ base_url }}/api/cars",
       "headers": [
@@ -158,7 +158,7 @@
       "settingFollowRedirects": "global",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"carId\": \"{{ car_id }}\",\n  \"taxId\": \"12345678901\"\n}"
+        "text": "{\n  \"carId\": \"{{ car_id }}\",\n  \"taxId\": \"12345678901\",\n  \"saleDate\": \"2026-02-26T12:00:00Z\"\n}"
       }
     },
     {
@@ -245,6 +245,34 @@
       "settingEncodeUrl": true,
       "settingRebuildPath": true,
       "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_7be924c699df4e3c",
+      "_type": "request",
+      "parentId": "fld_548e9232615a41de",
+      "name": "POST - Payment Webhook (Cancel)",
+      "description": "Simula callback de pagamento. status: 0=PENDING, 1=APPROVED, 2=REJECTED.",
+      "method": "POST",
+      "url": "{{ base_url }}/api/webhooks/payments",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "authentication": {},
+      "metaSortKey": 0,
+      "isPrivate": false,
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingDisableRenderRequestBody": false,
+      "settingEncodeUrl": true,
+      "settingRebuildPath": true,
+      "settingFollowRedirects": "global",
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"paymentCode\": \"{{ payment_code }}\",\n  \"status\": 2\n}"
+      }
     }
   ]
 }

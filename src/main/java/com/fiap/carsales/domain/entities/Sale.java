@@ -22,8 +22,9 @@ public class Sale {
         this.createdAt = Objects.requireNonNull(createdAt);
     }
 
-    public static Sale create(UUID carId, BigDecimal price, String taxId) {
-        return new Sale(UUID.randomUUID(), carId, null, price, taxId, Instant.now());
+    public static Sale create(UUID carId, BigDecimal price, String taxId, Instant saleDate) {
+        Instant ts = saleDate == null ? Instant.now() : saleDate;
+        return new Sale(UUID.randomUUID(), carId, null, price, taxId, ts);
     }
 
     public UUID getId() { return id; }

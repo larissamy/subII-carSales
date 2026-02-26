@@ -11,5 +11,6 @@ public interface SaleRepository {
     void add(Sale sale);
     void update(Sale sale);
     Optional<Sale> getById(UUID id);
+    Optional<Sale> getByPaymentId(UUID paymentId);
     void createSaleTransaction(Sale sale, Payment payment, Car car);
 }

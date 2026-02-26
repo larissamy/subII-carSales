@@ -5,6 +5,7 @@ import com.fiap.carsales.domain.enums.CarStatus;
 
 import java.lang.reflect.Constructor;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.UUID;
 
 /**
@@ -14,11 +15,11 @@ import java.util.UUID;
 final class CarMapper {
     private CarMapper() {}
 
-    static Car rehydrate(UUID id, String brand, String model, int year, String color, String licensePlate, BigDecimal price, CarStatus status) {
+    static Car rehydrate(UUID id, String brand, String model, int year, String color, String licensePlate, BigDecimal price, CarStatus status, Instant updatedAt) {
         try {
-            Constructor<Car> c = Car.class.getDeclaredConstructor(UUID.class, String.class, String.class, int.class, String.class, String.class, BigDecimal.class, CarStatus.class);
+            Constructor<Car> c = Car.class.getDeclaredConstructor(UUID.class, String.class, String.class, int.class, String.class, String.class, BigDecimal.class, CarStatus.class, Instant.class);
             c.setAccessible(true);
-            return c.newInstance(id, brand, model, year, color, licensePlate, price, status);
+            return c.newInstance(id, brand, model, year, color, licensePlate, price, status, updatedAt);
         } catch (Exception e) {
             throw new IllegalStateException("Failed to rehydrate Car", e);
         }

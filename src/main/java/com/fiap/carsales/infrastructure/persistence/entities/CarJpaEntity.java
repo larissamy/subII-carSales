@@ -5,6 +5,7 @@ import com.fiap.carsales.domain.enums.CarStatus;
 
 import jakarta.persistence.*;
 import java.math.BigDecimal;
+import java.time.Instant;
 import java.util.UUID;
 
 @Entity
@@ -37,6 +38,9 @@ public class CarJpaEntity {
     @Column(nullable = false, length = 20)
     private CarStatus status;
 
+    @Column(nullable = false)
+    private Instant updatedAt;
+
     protected CarJpaEntity() {}
 
     public static CarJpaEntity fromDomain(Car car) {
@@ -49,14 +53,11 @@ public class CarJpaEntity {
         e.licensePlate = car.getLicensePlate();
         e.price = car.getPrice();
         e.status = car.getStatus();
+        e.updatedAt = car.getUpdatedAt();
         return e;
     }
 
     public Car toDomain() {
-        // Build a domain Car using the factory, then patch id/status (keeping domain free of JPA)
-        Car domain = Car.create(brand, model, year, color, licensePlate, price);
-        // Overwrite generated id/status by reconstructing via reflection would be ugly.
-        // So we map by creating a new instance via a small internal constructor trick.
         return CarMapper.rehydrate(
                 UUID.fromString(id),
                 brand,
@@ -65,11 +66,10 @@ public class CarJpaEntity {
                 color,
                 licensePlate,
                 price,
-                status
+                status,
+                updatedAt
         );
     }
 
-    // Getters for Spring Data (optional)
     public String getId() { return id; }
-    public CarStatus getStatus() { return status; }
 }

@@ -6,9 +6,12 @@ import java.util.UUID;
 
 public record CarResponse(
         UUID id,
-        String licensePlate,
+        String brand,
         String model,
         int year,
+        String color,
+        String licensePlate,
         BigDecimal price,
-        Instant dateUpdate
+        String status,
+        Instant updatedAt
 ) {}

@@ -11,7 +11,6 @@ import com.fiap.carsales.domain.enums.CarStatus;
 import com.fiap.carsales.domain.repositories.CarRepository;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,74 +26,58 @@ public class CarService implements CarServicePort {
     @Override
     public List<CarResponse> getCarsSale() {
         var cars = repository.getByStatusOrderedByPriceAsc(CarStatus.AVAILABLE);
-        return cars.stream()
-                .map(car -> new CarResponse(
-                        car.getId(),
-                        car.getLicensePlate(),
-                        car.getModel(),
-                        car.getYear(),
-                        car.getPrice(),
-                        null
-                ))
-                .toList();
+        return cars.stream().map(this::toResponse).toList();
     }
 
     @Override
     public List<CarResponse> getCarsSold() {
         var cars = repository.getByStatusOrderedByPriceAsc(CarStatus.SOLD);
-        return cars.stream()
-                .map(car -> new CarResponse(
-                        car.getId(),
-                        car.getLicensePlate(),
-                        car.getModel(),
-                        car.getYear(),
-                        car.getPrice(),
-                        null
-                ))
-                .toList();
+        return cars.stream().map(this::toResponse).toList();
     }
 
     @Override
-    public void registerCar(RegisterCarRequest car) {
-        // Validation annotations already run in controller; keep business rules here too.
-        if (repository.getByLicensePlate(car.licensePlate()).isPresent()) {
-            throw new BusinessException("This car is already registered");
+    public void registerCar(RegisterCarRequest request) {
+        var existing = repository.getByLicensePlate(request.licensePlate());
+        if (existing.isPresent()) {
+            throw new BusinessException("License plate already registered: " + request.licensePlate());
         }
 
-        var newCar = Car.create(
-                car.brand(),
-                car.model(),
-                car.year(),
-                car.color(),
-                car.licensePlate(),
-                car.price()
+        var car = Car.create(
+                request.brand(),
+                request.model(),
+                request.year(),
+                request.color(),
+                request.licensePlate(),
+                request.price()
         );
-
-        repository.add(newCar);
+        repository.add(car);
     }
 
     @Override
-    public CarResponse updateCar(UUID id, UpdateCarRequest car) {
-        var existingCar = repository.getById(id)
-                .orElseThrow(() -> new NotFoundException("Car not found"));
-
-        existingCar.updateDetails(
-                car.brand(),
-                car.model(),
-                car.year(),
-                car.color(),
-                car.price()
+    public CarResponse updateCar(UUID id, UpdateCarRequest request) {
+        var car = repository.getById(id).orElseThrow(() -> new NotFoundException("Carro não encontrado."));
+        car.updateDetails(
+                request.brand(),
+                request.model(),
+                request.year(),
+                request.color(),
+                request.price()
         );
+        repository.update(car);
+        return toResponse(car);
+    }
 
-        repository.update(existingCar);
-
+    private CarResponse toResponse(Car car) {
         return new CarResponse(
-                existingCar.getId(),
-                existingCar.getLicensePlate(),
-                existingCar.getModel(),
-                existingCar.getYear(),
-                existingCar.getPrice(),
-                Instant.now()
+                car.getId(),
+                car.getBrand(),
+                car.getModel(),
+                car.getYear(),
+                car.getColor(),
+                car.getLicensePlate(),
+                car.getPrice(),
+                car.getStatus().name(),
+                car.getUpdatedAt()
         );
     }
 }

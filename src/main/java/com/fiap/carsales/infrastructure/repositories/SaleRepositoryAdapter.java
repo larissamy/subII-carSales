@@ -41,13 +41,21 @@ public class SaleRepositoryAdapter implements SaleRepository {
     }
 
     @Override
+    public Optional<Sale> getByPaymentId(UUID paymentId) {
+        return saleRepo.findByPaymentId(paymentId.toString()).map(SaleJpaEntity::toDomain);
+    }
+
+    @Override
     @Transactional
     public void createSaleTransaction(Sale sale, Payment payment, Car car) {
-        paymentRepo.save(PaymentJpaEntity.fromDomain(payment));
+        // 1) persist payment
+        var paymentEntity = paymentRepo.save(PaymentJpaEntity.fromDomain(payment));
 
-        sale.assignPaymentId(payment.getId());
-        saleRepo.save(SaleJpaEntity.fromDomain(sale));
-
+        // 2) persist car updated status (reserved)
         carRepo.save(com.fiap.carsales.infrastructure.persistence.entities.CarJpaEntity.fromDomain(car));
+
+        // 3) persist sale with payment id
+        sale.assignPaymentId(UUID.fromString(paymentEntity.getId()));
+        saleRepo.save(SaleJpaEntity.fromDomain(sale));
     }
 }

@@ -32,10 +32,11 @@ public class RegisterSaleService implements SaleServicePort {
             throw new BusinessException("The car " + car.getLicensePlate() + " is not available for sale. Current status: " + car.getStatus());
         }
 
-        car.markAsSold();
+        // Reserve until payment confirmation
+        car.reserve();
 
         var payment = Payment.create(car.getPrice());
-        var sale = Sale.create(car.getId(), car.getPrice(), request.taxId());
+        var sale = Sale.create(car.getId(), car.getPrice(), request.taxId(), request.saleDate());
 
         saleRepository.createSaleTransaction(sale, payment, car);
 
