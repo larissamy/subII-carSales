@@ -1,8 +1,42 @@
 # FiapSubII CarSales 
+## Sobre
+API REST para gerenciamento de venda de carros usados, desenvolvida em Java 17 + Spring Boot + Maven, seguindo os princípios de Clean Architecture.
 
-## Debug
+A API permite:
+
+- Cadastro e edição de veículos
+- Listagem de veículos disponíveis e vendidos (ordenados por preço)
+- Registro de vendas
+- Processamento de pagamento via webhook
+- Consulta do status do pagamento
+
+## Arquitetura
+Clean Architecture
+```
+src/main/java
+├── domain          # Entidades e regras de negócio
+├── application     # Casos de uso, serviços e DTOs
+├── infrastructure  # Persistência, configurações e integrações
+└── presentation    # Controllers REST e handlers de erro
+```
+
+## Tecnologias
+- Java 17
+- Spring Boot 3
+- Maven (3.9.10)
+- SQLite (in-memory)
+- Hibernate / JPA
+- Swagger / OpenAPI
+- Docker
+- Kubernetes
+
+Sendo pré requisitos: Java 17, Maven, Docker e Kubernetes
+
+# Debug
+### Usando sempre Git Bash
 
 ```bash
+mvn clean package -DskipTests
 mvn spring-boot:run
 ```
 
@@ -11,10 +45,8 @@ A API sobe em `http://localhost:8080`.
 ## Swagger / OpenAPI
 
 - Swagger UI: `http://localhost:8080/swagger-ui/index.html`
-- OpenAPI JSON: `http://localhost:8080/v3/api-docs`
 
-
-> Banco: SQLite em memória (`jdbc:sqlite:file:memdb1?mode=memory&cache=shared`) com `ddl-auto=create-drop`.
+> Banco: SQLite em memória
 
 ## Endpoints
 
@@ -33,32 +65,34 @@ A API sobe em `http://localhost:8080`.
 ### Payment
 - `GET /api/payment/{paymentCode}`
 
-## Run Kubernetes
-### Usando sempre Git Bash
-### Build Docker - Raíz do projeto
-```bash
-mvn clean package -DskipTests  
-docker build -t subii-carsales:local .
+## Run with Docker
 ```
+mvn clean package -DskipTests
+docker build -t subii-carsales:local .
+docker run --rm -p 8080:8080 subii-carsales:local
+```
+
+## Run with Kubernetes
+
 - Aplicar manifests
 ```bash
 kubectl apply -f k8s/
 ```
-- Forçar deployment 
+- Verifica pods 
 ```bash
-kubectl set image deployment/carsales-api carsales-api=subii-carsales:local
-kubectl patch deployment carsales-api -p '{"spec":{"template":{"spec":{"containers":[{"name":"carsales-api","imagePullPolicy":"IfNotPresent"}]}}}}'
-``` 
-
-- Reínicio e check - Aguardar running
-```bash
-kubectl rollout restart deployment/carsales-api
 kubectl get pods
-``` 
+```
 
-- Expose local - estará disponível em http://localhost:8080/swagger-ui/index.html
+- Acessar a aplicação (Expose local - estará disponível em http://localhost:8080/swagger-ui/index.html)
 ```bash
 kubectl port-forward svc/carsales-api 8080:80
 ``` 
 
+## Fluxo de funcionamento
 
+1. Cadastro de veículo (POST /api/cars)
+2. Listagem de veículos disponíveis (GET /api/cars/available)
+3. Registro de venda (POST /api/sales) - Com carId listado em /api/cars/available
+4. Processamento do pagamento via webhook (POST /api/webhooks/payments) - com paymentCode gerado em /api/sales
+5. Atualização do status do veículo (AVAILABLE → SOLD)
+6. Listagem de veículos vendidos (GET /api/cars/sold)
