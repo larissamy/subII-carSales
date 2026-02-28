@@ -29,7 +29,7 @@ public class RegisterSaleService implements SaleServicePort {
                 .orElseThrow(() -> new NotFoundException("Carro não encontrado."));
 
         if (car.getStatus() != CarStatus.AVAILABLE) {
-            throw new BusinessException("The car " + car.getLicensePlate() + " is not available for sale. Current status: " + car.getStatus());
+            throw new BusinessException("O carro " + car.getLicensePlate() + " não está disponível para venda. Status atual: " + car.getStatus());
         }
 
         // Reserve until payment confirmation

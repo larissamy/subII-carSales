@@ -58,7 +58,7 @@ public class Car {
 
     public void reserve() {
         if (status != CarStatus.AVAILABLE) {
-            throw new IllegalStateException("Only available cars can be reserved. Current status: " + status);
+            throw new IllegalStateException("Somente carros disponíveis podem ser reservados. Status atual: " + status);
         }
         this.status = CarStatus.RESERVED;
         this.updatedAt = Instant.now();
@@ -66,10 +66,10 @@ public class Car {
 
     public void makeAvailable() {
         if (status == CarStatus.AVAILABLE) {
-            throw new IllegalStateException("The car is already available.");
+            throw new IllegalStateException("O carro está disponível.");
         }
         if (status == CarStatus.SOLD) {
-            throw new IllegalStateException("Car sold cannot become available.");
+            throw new IllegalStateException("Carro já vendido não pode ser disponibilizado.");
         }
         // from RESERVED -> AVAILABLE
         this.status = CarStatus.AVAILABLE;
@@ -78,10 +78,10 @@ public class Car {
 
     public void markAsSold() {
         if (status == CarStatus.SOLD) {
-            throw new IllegalStateException("This car has already been sold.");
+            throw new IllegalStateException("Carro já vendido.");
         }
         if (status != CarStatus.RESERVED && status != CarStatus.AVAILABLE) {
-            throw new IllegalStateException("Only reserved/available cars can be sold. Current status: " + status);
+            throw new IllegalStateException("Somente carros reservados/disponíveis podem ser vendidos. Status atual: " + status);
         }
         this.status = CarStatus.SOLD;
         this.updatedAt = Instant.now();

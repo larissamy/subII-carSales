@@ -34,17 +34,17 @@ public class Payment {
 
     public void confirmPayment() {
         if (paymentStatus == PaymentStatus.PAID) {
-            throw new IllegalStateException("Payment already confirmed.");
+            throw new IllegalStateException("Pagamento confirmado.");
         }
         if (paymentStatus == PaymentStatus.CANCELLED) {
-            throw new IllegalStateException("Cancelled payment cannot be confirmed.");
+            throw new IllegalStateException("Pagamento cancelado.");
         }
         this.paymentStatus = PaymentStatus.PAID;
     }
 
     public void cancelPayment() {
         if (paymentStatus == PaymentStatus.PAID) {
-            throw new IllegalStateException("The payment has already been confirmed and cannot be cancelled.");
+            throw new IllegalStateException("O pagamento já foi aprovado e não pode ser cancelado.");
         }
         this.paymentStatus = PaymentStatus.CANCELLED;
     }

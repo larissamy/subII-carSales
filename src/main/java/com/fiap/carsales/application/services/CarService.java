@@ -39,7 +39,7 @@ public class CarService implements CarServicePort {
     public void registerCar(RegisterCarRequest request) {
         var existing = repository.getByLicensePlate(request.licensePlate());
         if (existing.isPresent()) {
-            throw new BusinessException("License plate already registered: " + request.licensePlate());
+            throw new BusinessException("Placa já registrada: " + request.licensePlate());
         }
 
         var car = Car.create(

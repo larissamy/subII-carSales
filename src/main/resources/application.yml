@@ -2,22 +2,24 @@ spring:
   datasource:
     url: jdbc:sqlite:file:memdb1?mode=memory&cache=shared
     driver-class-name: org.sqlite.JDBC
-    hikari:
-      minimum-idle: 1
-      idle-timeout: 0
-      maximum-pool-size: 5
   jpa:
+    database-platform: org.hibernate.community.dialect.SQLiteDialect
     hibernate:
       ddl-auto: create-drop
-    properties:
-      hibernate:
-        dialect: org.hibernate.community.dialect.SQLiteDialect
-        format_sql: true
+    show-sql: true
     open-in-view: false
 
-server:
-  port: 8080
+  sql:
+    init:
+      mode: never
 
 logging:
   level:
-    org.hibernate.SQL: debug
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql: TRACE
+
+spring.datasource.hikari:
+  maximum-pool-size: 1
+  minimum-idle: 1
+  idle-timeout: 0
+  max-lifetime: 0

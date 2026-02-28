@@ -38,7 +38,7 @@ public class PaymentService implements PaymentServicePort, PaymentConfirmationPo
         }
 
         var payment = paymentRepository.getByPaymentCode(input.paymentCode())
-                .orElseThrow(() -> new NotFoundException("Payment with code " + input.paymentCode() + " not found"));
+                .orElseThrow(() -> new NotFoundException("Pagamento com código " + input.paymentCode() + " não encontrado"));
 
         PaymentStatus incoming = switch (input.status()) {
             case 0 -> PaymentStatus.PENDING;
@@ -58,10 +58,10 @@ public class PaymentService implements PaymentServicePort, PaymentConfirmationPo
 
         // Update car state accordingly (if we can resolve the sale)
         var sale = saleRepository.getByPaymentId(payment.getId())
-                .orElseThrow(() -> new NotFoundException("Sale for payment " + payment.getPaymentCode() + " not found"));
+                .orElseThrow(() -> new NotFoundException("Venda para o pagamento " + payment.getPaymentCode() + " não encontrado"));
 
         var car = carRepository.getById(sale.getCarId())
-                .orElseThrow(() -> new NotFoundException("Car not found for sale " + sale.getId()));
+                .orElseThrow(() -> new NotFoundException("Carro não encontrado para venda " + sale.getId()));
 
         if (incoming == PaymentStatus.PAID) {
             // RESERVED -> SOLD
