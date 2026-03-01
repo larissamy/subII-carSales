@@ -88,6 +88,13 @@ kubectl get pods
 kubectl port-forward svc/carsales-api 8080:80
 ``` 
 
+### Após atualizar aplicação - Update image and run with Kubernetes
+```bash
+docker build -t subii-carsales:local .
+kubectl set image deployment/carsales-api carsales-api=subii-carsales:local
+kubectl rollout status deployment/carsales-api
+``` 
+
 ## Fluxo de funcionamento
 
 1. Cadastro de veículo (POST /api/cars)
