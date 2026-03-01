@@ -15,7 +15,7 @@ public class PaymentController {
     }
 
     @GetMapping("/{paymentCode}")
-    public ResponseEntity<?> getPayment(@PathVariable String paymentCode) {
+    public ResponseEntity<?> getPayment(@PathVariable ("paymentCode") String paymentCode) {
         return service.getPaymentByPaymentCode(paymentCode)
                 .<ResponseEntity<?>>map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());

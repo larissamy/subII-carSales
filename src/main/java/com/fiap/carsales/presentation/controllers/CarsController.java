@@ -4,6 +4,8 @@ import com.fiap.carsales.application.dto.request.RegisterCarRequest;
 import com.fiap.carsales.application.dto.request.UpdateCarRequest;
 import com.fiap.carsales.application.interfaces.CarServicePort;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.enums.ParameterIn;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -44,7 +46,7 @@ public class CarsController {
 
     @Operation(summary = "Update a car data (cannot update sold cars)")
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable UUID id, @Valid @RequestBody UpdateCarRequest request) {
+    public ResponseEntity<?> update(@PathVariable("id") UUID id, @Valid @RequestBody UpdateCarRequest request) {
         return ResponseEntity.ok(service.updateCar(id, request));
     }
 }

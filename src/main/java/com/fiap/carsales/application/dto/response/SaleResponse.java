@@ -10,5 +10,5 @@ public record SaleResponse(
         BigDecimal price,
         String paymentCode,
         Instant createdAt,
-        String statusDoPagamento
+        String paymentStatus
 ) {}

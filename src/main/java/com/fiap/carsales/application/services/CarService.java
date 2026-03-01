@@ -56,13 +56,15 @@ public class CarService implements CarServicePort {
     @Override
     public CarResponse updateCar(UUID id, UpdateCarRequest request) {
         var car = repository.getById(id).orElseThrow(() -> new NotFoundException("Carro não encontrado."));
-        car.updateDetails(
-                request.brand(),
-                request.model(),
-                request.year(),
-                request.color(),
-                request.price()
-        );
+
+        var brand = request.brand() != null ? request.brand() : car.getBrand();
+        var model = request.model() != null ? request.model() : car.getModel();
+        var year = request.year() != null ? request.year() : car.getYear();
+        var color = request.color() != null ? request.color() : car.getColor();
+        var price = request.price() != null ? request.price() : car.getPrice();
+        var licensePlate = request.licensePlate() != null ? request.licensePlate() : car.getLicensePlate();
+
+        car.updateDetails(brand, model, year, color, price, licensePlate);
         repository.update(car);
         return toResponse(car);
     }
