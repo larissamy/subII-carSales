@@ -13,7 +13,7 @@ public class Car {
     private String model;
     private int year;
     private String color;
-    private final String licensePlate;
+    private String licensePlate;
     private BigDecimal price;
     private CarStatus status;
     private Instant updatedAt;
@@ -44,7 +44,7 @@ public class Car {
         );
     }
 
-    public void updateDetails(String brand, String model, int year, String color, BigDecimal price) {
+    public void updateDetails(String brand, String model, int year, String color, BigDecimal price, String licensePlate) {
         if (status == CarStatus.SOLD) {
             throw new IllegalStateException("Carro vendido, impossível de editar");
         }
@@ -53,6 +53,7 @@ public class Car {
         this.year = year;
         this.color = Objects.requireNonNull(color);
         this.price = Objects.requireNonNull(price);
+        this.licensePlate = Objects.requireNonNull(licensePlate);
         this.updatedAt = Instant.now();
     }
 
