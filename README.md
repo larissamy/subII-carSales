@@ -71,6 +71,10 @@ mvn clean package -DskipTests
 docker build -t subii-carsales:local .
 docker run --rm -p 8080:8080 subii-carsales:local
 ```
+OR 
+```
+docker compose up
+```
 
 ## Run with Kubernetes
 
