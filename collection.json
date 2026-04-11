@@ -145,7 +145,11 @@
         {
           "name": "Content-Type",
           "value": "application/json"
-        }
+        },
+            {
+            "name": "Authorization",
+            "value": "Bearer {{ jwt_token }}"
+            }
       ],
       "authentication": {},
       "metaSortKey": 0,
@@ -158,7 +162,7 @@
       "settingFollowRedirects": "global",
       "body": {
         "mimeType": "application/json",
-        "text": "{\n  \"carId\": \"{{ car_id }}\",\n  \"taxId\": \"12345678901\",\n  \"saleDate\": \"2026-02-26T12:00:00Z\"\n}"
+        "text": "{\n  \"carId\": \"{{ car_id }}\", \n  \"saleDate\": \"2026-02-26T12:00:00Z\"\n}"
       }
     },
     {
