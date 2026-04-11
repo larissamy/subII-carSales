@@ -1,7 +1,16 @@
+server:
+  port: 8080
+
 spring:
   datasource:
     url: jdbc:sqlite:file:memdb1?mode=memory&cache=shared
     driver-class-name: org.sqlite.JDBC
+    hikari:
+      maximum-pool-size: 1
+      minimum-idle: 1
+      idle-timeout: 0
+      max-lifetime: 0
+
   jpa:
     database-platform: org.hibernate.community.dialect.SQLiteDialect
     hibernate:
@@ -18,8 +27,6 @@ logging:
     org.hibernate.SQL: DEBUG
     org.hibernate.type.descriptor.sql: TRACE
 
-spring.datasource.hikari:
-  maximum-pool-size: 1
-  minimum-idle: 1
-  idle-timeout: 0
-  max-lifetime: 0
+app:
+  jwt:
+    secret: 8a21e9f73f344f6fab18207b15f286ce8a21e9f73f344f6fab18207b15f286ce

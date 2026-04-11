@@ -7,6 +7,8 @@ import java.util.UUID;
 public record SaleResponse(
         UUID id,
         UUID carId,
+        UUID buyerId,
+        String buyerEmail,
         BigDecimal price,
         String paymentCode,
         Instant createdAt,

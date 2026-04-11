@@ -35,6 +35,11 @@ C:\Git\subII-carSales\src\main\java\com\fiap\carsales\infrastructure\repositorie
 C:\Git\subII-carSales\src\main\java\com\fiap\carsales\infrastructure\repositories\PaymentSpringDataRepository.java
 C:\Git\subII-carSales\src\main\java\com\fiap\carsales\infrastructure\repositories\SaleRepositoryAdapter.java
 C:\Git\subII-carSales\src\main\java\com\fiap\carsales\infrastructure\repositories\SaleSpringDataRepository.java
+C:\Git\subII-carSales\src\main\java\com\fiap\carsales\infrastructure\security\AuthenticatedBuyer.java
+C:\Git\subII-carSales\src\main\java\com\fiap\carsales\infrastructure\security\AuthenticatedBuyerProvider.java
+C:\Git\subII-carSales\src\main\java\com\fiap\carsales\infrastructure\security\JwtAuthenticationFilter.java
+C:\Git\subII-carSales\src\main\java\com\fiap\carsales\infrastructure\security\JwtService.java
+C:\Git\subII-carSales\src\main\java\com\fiap\carsales\infrastructure\security\SecurityConfig.java
 C:\Git\subII-carSales\src\main\java\com\fiap\carsales\presentation\controllers\CarsController.java
 C:\Git\subII-carSales\src\main\java\com\fiap\carsales\presentation\controllers\PaymentController.java
 C:\Git\subII-carSales\src\main\java\com\fiap\carsales\presentation\controllers\SalesController.java

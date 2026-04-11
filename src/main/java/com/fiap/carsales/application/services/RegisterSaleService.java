@@ -10,6 +10,7 @@ import com.fiap.carsales.domain.entities.Sale;
 import com.fiap.carsales.domain.enums.CarStatus;
 import com.fiap.carsales.domain.repositories.CarRepository;
 import com.fiap.carsales.domain.repositories.SaleRepository;
+import com.fiap.carsales.infrastructure.security.AuthenticatedBuyerProvider;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,14 +18,20 @@ public class RegisterSaleService implements SaleServicePort {
 
     private final CarRepository carRepository;
     private final SaleRepository saleRepository;
+    private final AuthenticatedBuyerProvider authenticatedBuyerProvider;
 
-    public RegisterSaleService(CarRepository carRepository, SaleRepository saleRepository) {
+    public RegisterSaleService(CarRepository carRepository,
+                               SaleRepository saleRepository,
+                               AuthenticatedBuyerProvider authenticatedBuyerProvider) {
         this.carRepository = carRepository;
         this.saleRepository = saleRepository;
+        this.authenticatedBuyerProvider = authenticatedBuyerProvider;
     }
 
     @Override
     public SaleResponse execute(RegisterSaleRequest request) {
+        var buyer = authenticatedBuyerProvider.getRequiredBuyer();
+
         var car = carRepository.getById(request.carId())
                 .orElseThrow(() -> new NotFoundException("Carro não encontrado."));
 
@@ -32,17 +39,24 @@ public class RegisterSaleService implements SaleServicePort {
             throw new BusinessException("O carro " + car.getLicensePlate() + " não está disponível para venda. Status atual: " + car.getStatus());
         }
 
-        // Reserve until payment confirmation
         car.reserve();
 
         var payment = Payment.create(car.getPrice());
-        var sale = Sale.create(car.getId(), car.getPrice(), request.taxId(), request.saleDate());
+        var sale = Sale.create(
+                car.getId(),
+                buyer.buyerId(),
+                buyer.email(),
+                car.getPrice(),
+                request.saleDate()
+        );
 
         saleRepository.createSaleTransaction(sale, payment, car);
 
         return new SaleResponse(
                 sale.getId(),
                 sale.getCarId(),
+                sale.getBuyerId(),
+                sale.getBuyerEmail(),
                 sale.getPrice(),
                 payment.getPaymentCode(),
                 sale.getCreatedAt(),
