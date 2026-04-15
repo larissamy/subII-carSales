@@ -8,13 +8,28 @@ import java.time.Instant;
 import java.util.UUID;
 
 final class SaleMapper {
-    private SaleMapper() {}
+    private SaleMapper() {
+    }
 
-    static Sale rehydrate(UUID id, UUID carId, UUID paymentId, BigDecimal price, String taxId, Instant createdAt) {
+    static Sale rehydrate(UUID id,
+                          UUID carId,
+                          UUID paymentId,
+                          UUID buyerId,
+                          String buyerEmail,
+                          BigDecimal price,
+                          Instant createdAt) {
         try {
-            Constructor<Sale> c = Sale.class.getDeclaredConstructor(UUID.class, UUID.class, UUID.class, BigDecimal.class, String.class, Instant.class);
+            Constructor<Sale> c = Sale.class.getDeclaredConstructor(
+                    UUID.class,
+                    UUID.class,
+                    UUID.class,
+                    UUID.class,
+                    String.class,
+                    BigDecimal.class,
+                    Instant.class
+            );
             c.setAccessible(true);
-            return c.newInstance(id, carId, paymentId, price, taxId, createdAt);
+            return c.newInstance(id, carId, paymentId, buyerId, buyerEmail, price, createdAt);
         } catch (Exception e) {
             throw new IllegalStateException("Failed to rehydrate Sale", e);
         }

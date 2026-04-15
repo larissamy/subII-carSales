@@ -13,11 +13,13 @@ com\fiap\carsales\application\services\RegisterSaleService.class
 com\fiap\carsales\infrastructure\repositories\PaymentRepositoryAdapter.class
 com\fiap\carsales\presentation\controllers\WebhooksController.class
 com\fiap\carsales\infrastructure\persistence\entities\SaleMapper.class
+com\fiap\carsales\infrastructure\security\SecurityConfig.class
 com\fiap\carsales\application\dto\request\PaymentWebhookRequest.class
 com\fiap\carsales\application\interfaces\SaleServicePort.class
 com\fiap\carsales\application\interfaces\PaymentConfirmationPort.class
 com\fiap\carsales\infrastructure\persistence\entities\CarJpaEntity.class
 com\fiap\carsales\application\exceptions\BusinessException.class
+com\fiap\carsales\infrastructure\security\AuthenticatedBuyer.class
 com\fiap\carsales\application\dto\response\SaleResponse.class
 com\fiap\carsales\infrastructure\persistence\entities\CarMapper.class
 com\fiap\carsales\infrastructure\repositories\PaymentSpringDataRepository.class
@@ -30,6 +32,7 @@ com\fiap\carsales\presentation\controllers\SalesController.class
 com\fiap\carsales\infrastructure\persistence\entities\PaymentMapper.class
 com\fiap\carsales\domain\repositories\SaleRepository.class
 com\fiap\carsales\presentation\exceptions\ApiExceptionHandler.class
+com\fiap\carsales\infrastructure\security\JwtAuthenticationFilter.class
 com\fiap\carsales\domain\entities\Car.class
 com\fiap\carsales\application\dto\request\UpdateCarRequest.class
 com\fiap\carsales\domain\enums\PaymentStatus.class
@@ -37,6 +40,8 @@ com\fiap\carsales\infrastructure\repositories\SaleSpringDataRepository.class
 com\fiap\carsales\presentation\controllers\PaymentController.class
 com\fiap\carsales\domain\entities\Sale.class
 com\fiap\carsales\application\services\PaymentService.class
+com\fiap\carsales\infrastructure\security\JwtService.class
 com\fiap\carsales\infrastructure\persistence\entities\SaleJpaEntity.class
 com\fiap\carsales\infrastructure\repositories\CarSpringDataRepository.class
+com\fiap\carsales\infrastructure\security\AuthenticatedBuyerProvider.class
 com\fiap\carsales\CarSalesApplication.class

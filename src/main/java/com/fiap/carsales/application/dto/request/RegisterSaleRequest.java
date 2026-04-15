@@ -8,6 +8,5 @@ import java.util.UUID;
 
 public record RegisterSaleRequest(
         @NotNull UUID carId,
-        @NotBlank String taxId,
         Instant saleDate
 ) {}
