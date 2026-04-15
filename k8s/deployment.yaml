@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: carsales-api
-          image: carsales-api:latest
+          image: larissay/subii-carsales:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8080
