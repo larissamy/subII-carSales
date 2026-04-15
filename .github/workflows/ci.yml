@@ -14,7 +14,7 @@ permissions:
   contents: read
 
 env:
-  IMAGE_NAME: larissamy/subii-carsales
+  IMAGE_NAME: larissay/subii-carsales
   DEPLOYMENT_NAME: carsales-api
   CONTAINER_NAME: carsales-api
   NAMESPACE: default
